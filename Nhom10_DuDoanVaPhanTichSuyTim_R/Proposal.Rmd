@@ -1,0 +1,254 @@
+---
+title: "Proposal Project EndTerm - PHÂN TÍCH VÀ DỰ ĐOÁN SUY TIM"
+author: "NHOM-10"
+date: "2022-10-25"
+output:
+  html_document: default
+  powerpoint_presentation: default
+  pdf_document: default
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Thành viên:
+
+-   20133033 - Bùi Tấn Đạt
+
+-   20133075 - Võ Hoàng Nguyên
+
+-   20133108 - Trần Tuyên Trường
+
+-   20133008 - Hoàng Uyên
+
+# 1. Giới thiệu
+
+-   Bệnh tim mạch (CVD) là nguyên nhân gây tử vong số 1 trên toàn cầu,
+    cướp đi sinh mạng của khoảng 17,9 triệu người mỗi năm, chiếm 31%
+    tổng số ca tử vong trên toàn thế giới. Bốn trong số 5CVD tử vong là
+    do đau tim và đột quỵ, và một phần ba số ca tử vong này xảy ra sớm ở
+    những người dưới 70 tuổi. Suy tim là một sự kiện phổ biến do CVD gây
+    ra và bộ dữ liệu này có thể được sử dụng để dự đoán bệnh tim có thể
+    xảy ra.
+
+-   Những người mắc bệnh tim mạch hoặc những người có nguy cơ tim mạch
+    cao (do sự hiện diện của một hoặc nhiều yếu tố nguy cơ như tăng
+    huyết áp, tiểu đường, tăng lipid máu hoặc bệnh đã được thiết lập)
+    cần được phát hiện và quản lý sớm, trong đó mô hình học máy có thể
+    giúp ích rất nhiều.
+
+    ## Câu hỏi nghiên cứu:
+
+    1.  Lượng Cholestorol cao hay thấp ảnh hưởng như thế nào đến khả
+        năng mắc bệnh suy tim?
+
+    2.  Giới tính có ảnh hưởng đến khả năng mắc bệnh suy tim cao hay
+        thấp không?
+
+    3.  Liệu rằng người lớn tuổi có khả năng mắc bệnh suy tim cao hơn
+        người trẻ hay không?
+
+    4.  Trong các yếu tố ở dữ liệu, đâu là những yếu tố chính dẫn đến
+        nguy cơ mắc bệnh tim suy tim cao hơn?
+
+    ## Dữ liệu của nhóm:
+
+    -   Dữ liệu cho cho đồ án được lấy từ website ([Heart Failure
+        Prediction Dataset \|
+        Kaggle](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction?resource=download)).
+        Gồm 1 tập dữ liệu ở dạng (.csv) /heart.csv.
+
+    -   Tập dữ liệu này được tạo bằng cách kết hợp các tập dữ liệu khác
+        nhau đã có sẵn một cách độc lập nhưng chưa được kết hợp trước
+        đó. Trong bộ dữ liệu này, 5 bộ dữ liệu về tim được kết hợp trên
+        11 đặc điểm chung khiến nó trở thành bộ dữ liệu về bệnh tim lớn
+        nhất có sẵn cho mục đích nghiên cứu cho đến nay. Năm bộ dữ liệu
+        được sử dụng để quản lý nó là:
+
+        -   Cleveland: 303 quan sát
+        -   Hungarian: 294 quan sát
+        -   Switzerland: 123 quan sát
+        -   Long Beach VA: 200 quan sát
+        -   Stalog (Heart) Data Set: 270 quan sát
+        -   Total: 1190 quan sát
+        -   Duplicated: 272 quan sát
+        -   Tập dữ liệu cuối cùng: 918 quan sát
+        -   Mọi bộ dữ liệu được sử dụng có thể được tìm thấy trong Chỉ
+            mục bộ dữ liệu bệnh tim từ Kho lưu trữ Máy học UCI trên liên
+            kết sau:
+            <https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/>
+
+    -   Biến phân loại (định tính): Sex, ChestPainType, FastingBS,
+        RestingECG, ExerciseAngina, ST_Slope, HeartDisease
+
+    -   Biến số (định lượng): Age, RestingBP, Cholesterol, MaxHR,
+        Oldpeak
+
+# 2. Dữ liệu
+
+-   Thông tin về bộ dữ liệu mà nhóm phân tích
+
+    Bộ dữ liệu gồm: 12 cột và 918 dòng. Trong đó:
+
+    \- Age: Tuổi của bệnh nhân
+
+    \- Sex: giới tính của bệnh nhân [M: Nam, F: Nữ]
+
+    \- ChestPainType: loại đau ngực [TA: Đau thắt ngực điển hình, ATA:
+    Đau thắt ngực không điển hình, NAP: Đau thắt ngực không, ASY: Không
+    có triệu chứng]
+
+    \- RestingBP: resting blood pressure - huyết áp khi nghỉ ngơi [mm
+    Hg]
+
+    \- Cholesterol: lượng cholesterol [mg/dL]
+
+    \- FastingBS: fasting blood sugar - đường huyết lúc đói [1: nếu
+    FastingBS \\\> 120 mg/dL, 0: nếu FastingBS \\\<= 120 mg/dL]
+
+    \- RestingECG: kết quả điện tâm đồ lúc nghỉ [Normal: Bình thường,
+    ST: có bất thường sóng ST-T (đảo ngược sóng T và / hoặc ST chênh lên
+    hoặc giảm \\\> 0,05 mV), LVH: cho thấy phì đại thất trái có thể hoặc
+    xác định theo tiêu chuẩn của Estes]
+
+    \- MaxHR: nhịp tim tối đa đạt được [Giá trị số từ 60 đến 202]
+
+    \- ExerciseAngina: đau thắt ngực do tập thể dục [Y: Có, N: Không]
+
+    \- Oldpeak: oldpeak = ST [Giá trị số được đo bằng độ trầm cảm]
+
+    \- ST_Slope: độ dốc của bài tập đỉnh cao Đoạn ST [Up: dốc lên, Flat:
+    bằng phẳng, Down: dốc xuống]
+
+    \- HeartDisease: Bị bệnh tim [1: Có, 0: Không]
+
+```{r}
+library("knitr")
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(gapminder)
+```
+
+**\*\* Đọc dữ tập dữ liệu:** xuất theo kiểu string \<str\> để đọc được
+số dòng là 918 theo 12 biến.
+
+```{r}
+datadisease <- read.csv("./data/heart.csv")
+str(datadisease)
+```
+
+------------------------------------------------------------------------
+
+**Nhận xét:** dataframe hiển thị đầy đủ các biến theo kiểu dữ liệu tương
+ứng.
+
+**\*\* Đọc dữ tập dữ liệu:** hiển thị ra 15 giá trị đầu của tập dữ liệu
+
+```{r heart}
+datadisease %>%
+head(15)
+```
+
+**Nhận xét:** dataframe hiển thị đầy đủ các biến theo kiểu dữ liệu tương
+ứng dễ nhìn hơn sơ với xuất theo kiểu string \<str\>.
+
+**\*\* Kiểm tra dữ liệu có bị rỗng hay không?**
+
+```{r}
+na<-function(x){
+  result<- which(x=='na'| x=='NA'|x=='Na')
+  length(result)
+}
+apply(datadisease,2,na)
+```
+
+**Nhận xét:** output hiển thị không có dữ liệu bị rỗng
+
+\*\* Kiểm tra dữ liệu trùng nhau.
+
+```{r}
+duplicate<- duplicated(datadisease)
+sum(duplicate)
+```
+
+**Nhận xét:** output hiển thị không có dữ liệu bị trùng nhau
+
+\*\* Biểu đồ hiển thị theo biến tóm tắt dữ liệu:
+
+```{r}
+datadisease %>% summary()
+```
+
+# 3. Kế hoạch phân tích dữ liệu:
+
+-   Biến kết quả (phản hồi, Y): HeartDisease
+
+-   Biến dự đoán (giải thích, X): Age, Sex, ChestPainType, RestingBP,
+    Cholesterol, FastingBS, RestingECG, MaxHR, ExerciseAngina, Oldpeak,
+    ST_Slope
+
+-   Biểu đồ hiển thị theo biến tuổi:
+
+```{r}
+datadisease$Age %>% summary()
+
+ggplot(data = datadisease, aes(x = Age)) +
+  geom_histogram(color = "#004d1a", fill = "#33ff77") +
+  labs(title = "Biểu độ theo biến Tuổi", x = "Age", y = "Count") +
+  theme_minimal()
+```
+
+-   Biểu đồ hiện thị theo lượng Cholesterol:
+
+```{r}
+datadisease$Cholesterol %>% summary()
+
+ggplot(data = datadisease, aes(x = Cholesterol)) +
+  geom_histogram(color = "#808000", fill = "#ffff1a") +
+  labs(title = "Biểu đồ theo lượng Cholesterol", x = "Serum Cholesterol", y = "Count") +
+  theme_minimal()
+```
+
+-   Biểu đồ hiển thị Giới tính nam và nữ tướng ứng F là nữ còn M là nam:
+
+```{r}
+ggplot(data = datadisease, aes(x = Sex)) +
+  stat_count(fill = "Green") +
+  labs(title = "Biểu đồ theo biến giới tính", x = "Sex", y = "Count") +
+  theme_minimal()
+```
+
+Nhận xét: Số lượng nam giới trong tập dữ liệu nhiều gấp 3 lần nữ giới.
+
+## Các phương pháp mà nhóm tin rằng sẽ hữu ích trong việc trả lời (các) câu hỏi đặt ra
+
+-   Dùng hồi quy tuyến tính để đưa ra dự đoán xem các yếu tố nào sẽ ảnh
+    hưởng nhiều nhất đến bệnh tim.
+
+-   Đặt ra các giả thiết có trong dataset và kiểm tra bằng cách trực
+    quan hóa, vẽ biểu đồ để kiểm tra các giả thiết đúng hay sai.
+
+## Kế hoạch thực hiện và phân công việc:
+
+-   Trần Tuyên Trường: tìm hiểu ý nghĩa của các biến trong dữ liệu liên
+    quan như thế nào đến bệnh tim. Tìm hiểu lý do ở câu hỏi nghiên cứu
+    thứ hai, nữ giới có khả năng mắc bệnh tim cao hơn nam là do giới
+    tính hay do các biến khác ảnh hưởng tới trong bộ dữ liệu. Tìm hiểu
+    các biểu đồ liên quan để phân tích và đưa ra kết quả.
+-   Hoàng Uyên: tìm hiểu, nghiên cứu câu hỏi đầu tiên và soạn slide
+    thuyết trình bằng tiếng Anh khi cả nhóm hoàn thành xong. Tìm hiểu và
+    vẽ các biểu đồ để phân tích và đưa ra kết quả chứng minh cho các
+    nhận định nhìn ra.
+-   Võ Hoàng Nguyên: Tìm hiểu, nghiên cứu câu hỏi thứ ba và soạn slide
+    thuyết trình bằng tiếng Anh khi cả nhóm hoàn thành xong. Tìm hiểu và
+    vẽ các biểu đồ để phân tích và đưa ra kết quả chứng minh cho các
+    nhận định nhìn ra.
+-   Bùi Tấn Đạt: Tìm hiểu, nghiên cứu câu hỏi cuối cùng và kiểm tra tổng
+    quát các biểu đồ mà nhóm đã vẽ. Tìm hiểu và vẽ các biểu đồ để phân
+    tích và đưa ra kết quả chứng minh cho các nhận định nhìn ra trong
+    câu hỏi cuối cùng.

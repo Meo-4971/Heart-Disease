@@ -1,0 +1,506 @@
+﻿<MiningStructure xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="b708319d-e5bf-42e4-a887-48e9fe8321b8" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>CT Heart Disease</ID>
+  <Name>CT Heart Disease</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:CaseTableName</Name>
+      <Value>dbo_Heart_Disease</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
+      <Value>
+        <dds xmlns="">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="2" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-9964" scrolltop="-6963" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="100" x="23036" y="18927" backcolor="2434342" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+            <font>
+              <ddsxmlobjectstreamwrapper binary="01000000900180380100065461686f6d61" />
+            </font>
+            <mouseicon>
+              <ddsxmlobjectstreamwrapper binary="6c74000000000000" />
+            </mouseicon>
+          </diagram>
+          <layoutmanager>
+            <ddsxmlobj />
+          </layoutmanager>
+          <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge" tooltip="Heart_Disease" left="814" top="-5186" logicalid="1" controlid="1" masterid="0" hint1="0" hint2="0" width="3069" height="5000" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+            <control>
+              <ddsxmlobjectstreaminitwrapper binary="000e0000fd0b000088130000" />
+            </control>
+            <layoutobject>
+              <ddsxmlobj>
+                <property name="LogicalObject" value="dbo_Heart_Disease" vartype="8" />
+              </ddsxmlobj>
+            </layoutobject>
+            <shape groupshapeid="0" groupnode="0" />
+          </ddscontrol>
+        </dds>
+      </Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowRelationshipNames</Name>
+      <Value>false</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:UseDiagramDefaultLayout</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
+      <Value>-9964</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
+      <Value>-6963</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
+      <Value>814</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingTop</Name>
+      <Value>-5186</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
+      <Value>100</Value>
+    </Annotation>
+  </Annotations>
+  <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+  <State>Unprocessed</State>
+  <Source xsi:type="DataSourceViewBinding" dwd:design-time-name="0669eb5f-0cc7-4205-91c1-77aa623325ab">
+    <DataSourceViewID>View_HEART DISEASE</DataSourceViewID>
+  </Source>
+  <Columns>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="cf3f6dc6-3393-46b2-8316-8809cde6e6b1">
+      <ID>Age Category</ID>
+      <Name>Age Category</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="2ca38f86-2b97-4a3f-b714-2d0f982bfdf2">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="c2dbe751-b228-4ea3-a62f-368992e4a21a">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>AgeCategory</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="cbdd333e-19bf-4de3-8fef-d5b730870ca8">
+      <ID>Alcohol Drinking</ID>
+      <Name>Alcohol Drinking</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="be80eb2f-1cfc-4f59-aaa1-6aba26113f84">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="2907fff5-88e2-465d-971b-0ff75cfe7487">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>AlcoholDrinking</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="4c892cdf-d632-4798-a7fe-61e787402f69">
+      <ID>Asthma</ID>
+      <Name>Asthma</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="7d2cd3fe-57db-427b-909a-9f134ac380ca">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="987a805b-8a03-46f0-aa16-c0789d656cf8">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>Asthma</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="a4ee84f5-35bb-4220-80b5-986d3454396c">
+      <ID>BMI</ID>
+      <Name>BMI</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="00908728-ceab-4fa3-a4c5-9aceb3f2b362">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="c4833b8c-9de0-46ee-a87f-6fbcf23746a2">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>BMI</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="a4bcdeb3-9161-4126-856c-e365a88c3364">
+      <ID>Diabetic</ID>
+      <Name>Diabetic</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="862be1ad-a44a-4d7c-ad40-0f6bebf9d8d3">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="ae5d4899-9c98-4928-893c-e012bc83d706">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>Diabetic</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="fcada329-a168-4eb5-aa94-ad280455046f">
+      <ID>Diff Walking</ID>
+      <Name>Diff Walking</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="a0262508-1c2f-45ee-9a1c-aac4ad30415d">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="c97f11fd-2123-4ce9-8324-2c936cccce2c">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>DiffWalking</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="921082f8-4823-4615-8a19-d3f1abd032a8">
+      <ID>Gen Health</ID>
+      <Name>Gen Health</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="10f964a2-9893-4b6f-bd71-b1ba5094030a">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="9409f377-8e0c-472f-83c7-cbcfea7e5088">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>GenHealth</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="588e0048-7d6e-4bcb-9493-e0ca74fa5673">
+      <ID>Heart Disease</ID>
+      <Name>Heart Disease</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="b7190fd1-2aa8-45bb-8c75-a5d43838d99c">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="3af626c7-6e2c-4319-bfea-225e4523b8c1">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>HeartDisease</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="14662514-10f6-4c9c-8c76-e2a102bdddce">
+      <ID>Heart ID</ID>
+      <Name>Heart ID</Name>
+      <IsKey>true</IsKey>
+      <Type>Long</Type>
+      <Content>Key</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="c87cd13f-0eb2-4a90-9675-4b349795fe01">
+          <DataType>Integer</DataType>
+          <DataSize>-1</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="1ea4171c-52a9-47fa-a74f-998d72bbb0dc">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>HeartID</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="090d078f-51be-423b-b42b-6a5b0f3ae2c3">
+      <ID>Kidney Disease</ID>
+      <Name>Kidney Disease</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="9e0850dc-e1ca-4ea0-932d-172833865423">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="2baddab8-4c73-415c-9651-0654f9c32684">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>KidneyDisease</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="5dc7940b-09d2-4610-b598-20a9a4cc460d">
+      <ID>Mental Health</ID>
+      <Name>Mental Health</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="fee128ef-2f57-4cc4-8783-4f62c759d0c5">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="50995c5e-83c1-4f07-8c44-6797612ed74b">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>MentalHealth</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="37d7dc9b-08be-4985-98b8-5bb7e27a7abb">
+      <ID>Physical Activity</ID>
+      <Name>Physical Activity</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="2325e007-6ca8-4ca3-84fc-1b0701dc43c8">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="4f1ddf7b-dc3b-4030-86d2-e37c7d23b8cb">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>PhysicalActivity</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="a44e3496-1c6e-4a2b-adaa-e21e57bf1393">
+      <ID>Physical Health</ID>
+      <Name>Physical Health</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="eefe6b82-88bc-49c4-b8b0-7f36110a61ca">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="be4f4704-c831-493d-bd73-4ba5aee5279e">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>PhysicalHealth</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="a5721288-c321-44aa-a6b7-1edfc78e3f21">
+      <ID>Race</ID>
+      <Name>Race</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="a50b29e2-0637-43f1-ae50-98883d4931de">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="2dcb33eb-0ed4-4324-9583-518ac9b24cd4">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>Race</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="a04964ff-1b03-4651-ab63-15906851b298">
+      <ID>Sex</ID>
+      <Name>Sex</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="6793ae3e-f6f7-4a4c-9875-1a0bf066c0cb">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="74440011-de4b-4e57-8b04-312cb38e443c">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>Sex</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="a085e03a-8bbe-438a-ae48-3a271e85c7b9">
+      <ID>Skin Cancer</ID>
+      <Name>Skin Cancer</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="b9ee2b8a-57fd-48b8-989f-9fdd68f2d744">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="460f2df8-c2a8-49a0-b552-8fbc3f5a1108">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>SkinCancer</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="36eeb719-52b6-4623-a038-f00c0a62a6fe">
+      <ID>Sleep Time</ID>
+      <Name>Sleep Time</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="38573f72-b8f9-4c17-9942-38b5ddbb2d3a">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="089f05c9-15aa-49b1-9ab8-eb679aba48ac">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>SleepTime</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="951e282a-975d-44e4-a241-a7dc9ec4c7d4">
+      <ID>Smoking</ID>
+      <Name>Smoking</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="5ad34ac2-9498-4912-afb7-5d6d558dedd1">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="4214d665-9131-454f-a1a1-da00d0fac2b2">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>Smoking</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+    <Column xsi:type="ScalarMiningStructureColumn" dwd:design-time-name="446ea592-a4ed-4dd0-8988-5232f48188ee">
+      <ID>Stroke</ID>
+      <Name>Stroke</Name>
+      <Type>Text</Type>
+      <Content>Discrete</Content>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="02b1fba9-a8f1-4716-bb4c-69adb55eb8c8">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="8deab47c-9da0-422a-a24e-a272c26a00c4">
+            <TableID>dbo_Heart_Disease</TableID>
+            <ColumnID>Stroke</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+    </Column>
+  </Columns>
+  <MiningModels>
+    <MiningModel dwd:design-time-name="0dcbe894-e4cb-4e14-9e03-5cef1be74c02">
+      <ID>CT Heart Disease</ID>
+      <Name>CT Heart Disease</Name>
+      <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+      <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+      <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+      <State>Unprocessed</State>
+      <Algorithm>Microsoft_Clustering</Algorithm>
+      <AlgorithmParameters>
+        <AlgorithmParameter>
+          <Name>CLUSTER_COUNT</Name>
+          <Value xsi:type="xsd:int">3</Value>
+        </AlgorithmParameter>
+        <AlgorithmParameter>
+          <Name>CLUSTERING_METHOD</Name>
+          <Value xsi:type="xsd:int">3</Value>
+        </AlgorithmParameter>
+      </AlgorithmParameters>
+      <Columns>
+        <Column dwd:design-time-name="291f09ff-20ea-4d60-9f78-6e3ce12a69bd">
+          <ID>Age Category</ID>
+          <Name>Age Category</Name>
+          <SourceColumnID>Age Category</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="777da3a3-49ca-4907-b5e7-900ccd2d86de">
+          <ID>Alcohol Drinking</ID>
+          <Name>Alcohol Drinking</Name>
+          <SourceColumnID>Alcohol Drinking</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="08907f2d-f259-425c-8345-ce75742829f9">
+          <ID>Asthma</ID>
+          <Name>Asthma</Name>
+          <SourceColumnID>Asthma</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="6c0b91a4-b9de-4a0c-a1f6-d1abc9982c18">
+          <ID>BMI</ID>
+          <Name>BMI</Name>
+          <SourceColumnID>BMI</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="95071925-3d5b-4171-a06d-411a72fc65f6">
+          <ID>Diabetic</ID>
+          <Name>Diabetic</Name>
+          <SourceColumnID>Diabetic</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="e1aa2ecf-529c-4474-b066-7a14f87552b5">
+          <ID>Diff Walking</ID>
+          <Name>Diff Walking</Name>
+          <SourceColumnID>Diff Walking</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="d7fbcbf3-7bb4-42d7-83a2-fb1241faf58e">
+          <ID>Gen Health</ID>
+          <Name>Gen Health</Name>
+          <SourceColumnID>Gen Health</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="1d381b09-4167-4a16-815f-a2f472dfcc45">
+          <ID>Heart Disease</ID>
+          <Name>Heart Disease</Name>
+          <SourceColumnID>Heart Disease</SourceColumnID>
+          <Usage>PredictOnly</Usage>
+        </Column>
+        <Column dwd:design-time-name="f65087e2-1a2b-463f-81c6-2dd09f6d1e7d">
+          <ID>Heart ID</ID>
+          <Name>Heart ID</Name>
+          <SourceColumnID>Heart ID</SourceColumnID>
+          <Usage>Key</Usage>
+        </Column>
+        <Column dwd:design-time-name="ee6333a9-d0c5-4872-9637-9543e220fe89">
+          <ID>Kidney Disease</ID>
+          <Name>Kidney Disease</Name>
+          <SourceColumnID>Kidney Disease</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="a23c7de9-2b58-4c6d-b948-51b2acc6f9aa">
+          <ID>Mental Health</ID>
+          <Name>Mental Health</Name>
+          <SourceColumnID>Mental Health</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="d80304c6-b0b3-4c8c-8e61-56c43d73dc9f">
+          <ID>Physical Activity</ID>
+          <Name>Physical Activity</Name>
+          <SourceColumnID>Physical Activity</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="062cd61a-81c8-4db2-850f-cedeace27026">
+          <ID>Physical Health</ID>
+          <Name>Physical Health</Name>
+          <SourceColumnID>Physical Health</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="68c53961-d59b-4704-822e-e07c50c4fa12">
+          <ID>Race</ID>
+          <Name>Race</Name>
+          <SourceColumnID>Race</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="89eedbbe-3a88-4ed6-baa3-70eb834a478c">
+          <ID>Sex</ID>
+          <Name>Sex</Name>
+          <SourceColumnID>Sex</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="3eea3592-bf74-4e97-b959-5b6dbcac99f3">
+          <ID>Skin Cancer</ID>
+          <Name>Skin Cancer</Name>
+          <SourceColumnID>Skin Cancer</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="caa47105-7187-405a-8c63-b7d5f0486834">
+          <ID>Sleep Time</ID>
+          <Name>Sleep Time</Name>
+          <SourceColumnID>Sleep Time</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="24784961-91d9-4400-8b16-8f5db8e9e8b2">
+          <ID>Smoking</ID>
+          <Name>Smoking</Name>
+          <SourceColumnID>Smoking</SourceColumnID>
+        </Column>
+        <Column dwd:design-time-name="379a1751-3ad2-42d1-babb-479a0f8bd2d0">
+          <ID>Stroke</ID>
+          <Name>Stroke</Name>
+          <SourceColumnID>Stroke</SourceColumnID>
+        </Column>
+      </Columns>
+    </MiningModel>
+  </MiningModels>
+  <ddl100_100:HoldoutMaxPercent>30</ddl100_100:HoldoutMaxPercent>
+</MiningStructure>

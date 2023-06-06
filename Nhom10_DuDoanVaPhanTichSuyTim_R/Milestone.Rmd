@@ -1,0 +1,122 @@
+---
+title: "Milestone Final Project - PHÂN TÍCH VÀ DỰ ĐOÁN SUY TIM"
+author: "NHÓM 10"
+date: "2022-11-26"
+output:
+  html_document: default
+  powerpoint_presentation: default
+  pdf_document: default
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Thành viên:
+
+-   20133033 - Bùi Tấn Đạt
+
+-   20133075 - Võ Hoàng Nguyên
+
+-   20133108 - Trần Tuyên Trường
+
+-   20133008 - Hoàng Uyên
+
+# 1. Đóng góp của các thành viên
+
+-   Trần Tuyên Trường: tìm hiểu ý nghĩa của các biến trong dữ liệu liên
+    quan như thế nào đến bệnh tim. Tìm hiểu lý do ở câu hỏi nghiên cứu
+    thứ hai, nữ giới có khả năng mắc bệnh tim cao hơn nam là do giới
+    tính hay do các biến khác ảnh hưởng tới trong bộ dữ liệu. Tìm hiểu
+    các biểu đồ liên quan để phân tích và đưa ra kết quả.
+
+-   Hoàng Uyên: tìm hiểu, nghiên cứu câu hỏi đầu tiên và soạn slide
+    thuyết trình bằng tiếng Anh khi cả nhóm hoàn thành xong. Tìm hiểu và
+    vẽ các biểu đồ để phân tích và đưa ra kết quả chứng minh cho các
+    nhận định nhìn ra.
+
+-   Võ Hoàng Nguyên: Tìm hiểu, nghiên cứu câu hỏi thứ ba và soạn slide
+    thuyết trình bằng tiếng Anh khi cả nhóm hoàn thành xong. Tìm hiểu và
+    vẽ các biểu đồ để phân tích và đưa ra kết quả chứng minh cho các
+    nhận định nhìn ra.
+
+-   Bùi Tấn Đạt: Tìm hiểu, nghiên cứu câu hỏi cuối cùng và kiểm tra tổng
+    quát các biểu đồ mà nhóm đã vẽ. Tìm hiểu và vẽ các biểu đồ để phân
+    tích và đưa ra kết quả chứng minh cho các nhận định nhìn ra trong
+    câu hỏi cuối cùng.
+
+# 2. Thông tin về project
+
+## Project muốn tìm hiểu các câu hỏi nghiên cứu sau:
+
+    1.  Lượng Cholestorol cao hay thấp ảnh hưởng như thế nào đến khả
+        năng mắc bệnh suy tim?
+
+    2.  Giới tính có ảnh hưởng đến khả năng mắc bệnh suy tim cao hay
+        thấp không?
+
+    3.  Liệu rằng người lớn tuổi có khả năng mắc bệnh suy tim cao hơn
+        người trẻ hay không?
+
+    4.  Trong các yếu tố ở dữ liệu, đâu là những yếu tố chính dẫn đến
+        nguy cơ mắc bệnh tim suy tim cao hơn?
+
+## Dữ liệu của nhóm:
+
+Bộ dữ liệu gồm: 12 cột và 918 dòng. Trong đó:
+
+\- Input: Age, Sex, ChestPainType, RestingBP, Cholesterol, FastingBS,
+RestingECG, MaxHR, ExerciseAngina, Oldpeak, ST_Slope.
+
+\- Output: HeartDisease
+
+## Cách đánh giá kết quả:
+
+Quan sát và phân tích dựa trên số liệu thống kê và các biểu đồ được
+trình bày bằng các phương pháp thống kê, phân tích đã được giảng dạy
+trong bộ môn "Lập trình R cho phân tích".
+
+# 3. Giải pháp
+
+-   Thống kê các nguyên nhân dễ gây ra việc mắc bệnh tim nhiều nhất.
+-   Xét mối tương quan giữa các yếu tố gây ra bệnh tim
+-   Thử nghiệm mô hình Linear Regression để dự đoán chỉ số của yếu tố
+    nào gây ra bệnh tim cao nhất (nếu được).
+
+# 4. Kết quả sơ bộ
+
+-   Các thành viên trong nhóm hoàn thành công việc được giao, đồng thời
+    nắm rõ toàn bộ bài báo cáo của nhóm.
+
+-   Sau khi phân tích và vẽ biểu đồ để trả lời cho câu hỏi "Lượng
+    Cholestorol cao hay thấp ảnh hưởng như thế nào đến khả năng mắc bệnh
+    suy tim?", nhóm đã vẽ biểu đồ trực quan và nhận thấy rằng những
+    người có lượng Cholesterol trong khoảng 200-400 có khả năng mắc bệnh
+    tim cao, lượng cholesterol nằm ngoài khoảng đó thì khả năng mắc bệnh
+    tim thấp.
+
+-   Để trả lời cho câu hỏi "Giới tính có ảnh hưởng đến khả năng mắc bệnh
+    suy tim cao hay thấp không?" nhóm đã tiến hành vẽ biểu đồ trực quan.
+    Nhưng nhận thấy số lượng nam giới trong tập dữ liệu nhiều gấp 3 lần
+    số lượng nữ giới nên nhóm đang tìm cách để lấy ra số lượng nam và nữ
+    giới bằng nhau rồi sau đó sẽ phân tích và nhận xét tiếp tục.
+
+-   Với câu hỏi "Liệu rằng người lớn tuổi có khả năng mắc bệnh suy tim
+    cao hơn người trẻ hay không?", sau khi xem xét và vẽ biểu đồ nhóm
+    nhận thấy rằng những người trung niên (độ tuổi từ 40-60) có khả năng
+    mắc bệnh tim cao hơn các độ tuổi khác.
+
+# 5. Kế hoạch tiếp theo
+
+-   Hoàn thành các vấn đề chưa được giải quyết.
+-   Quan sát, kiểm tra và đi vào nhận xét một cách chi tiết hơn về những
+    vấn đề mà nhóm đã đề ra từ đó chỉnh sửa cho hoàn thiện hơn.
+-   Thử nghiệm thêm các phương pháp phân tích, thống kê khác như:
+    Classification Model,..
+-   Tìm hiểu và trình bày các biểu đồ chưa được vẽ hoàn chỉnh hoặc chưa
+    biết vẽ ở phần proposal.
+-   Hoàn thiện code R, file word báo cáo, file powerpoint trình bày báo
+    cáo.

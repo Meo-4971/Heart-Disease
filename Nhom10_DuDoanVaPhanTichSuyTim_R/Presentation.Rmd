@@ -1,0 +1,287 @@
+---
+title: "Presentation-Topic: Analysis and Prediction of Heart Failure"
+author: "Group10"
+date: "2022-12-18"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## **Member of Group 11**
+
+```{r echo=FALSE, fig.cap="", out.width = '25%'}
+knitr::include_graphics("image/tandat.png")
+knitr::include_graphics("image/nguyen.png")
+knitr::include_graphics("image/truong.png")
+knitr::include_graphics("image/uyen.png")
+```
+
+## **I. Introduction about the topic and the motivation**
+
+**1. Topic:** Analysis and Prediction of Heart Failure
+
+**2. Motivation to implement the topic:**
+
+-   Cardiovascular disease (CVD) is the number one cause of death globally,kills about 17.9 million people every year, accounting for 31% the total number of deaths worldwide. Four of the 5CVD deaths were from heart attacks and strokes, and one-third of these deaths occur prematurely in people under 70 years old.
+-   Heart failure is a common event caused by CVD out and this data set can be used to predict possible heart disease happening.In order to predict which factors cause heart failure and analyze them according to learned models, to ensure the world has the right view of the factors that lead to heart failure, so my team chose this topic. This account to make
+
+```{r, echo = FALSE, out.width = '50%', fig.align = "center"}
+knitr::include_graphics("image/suy-tim-2.jpg")
+```
+
+## **II. Description of the data set**
+
+**1.Introduce about data set:**The data for the project is taken from the website ([Heart Failure Prediction Dataset\| Kaggle](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction?resource=download)).Includes 1 data set in the form (.csv) /heart.csv. \* Information about the dataset that the team analyzed
+
+     The dataset includes: 12 columns and 918 rows. Inside:
+      * Categorical variables (qualitative): Sex, ChestPainType, FastingBS, RestingECG, ExerciseAngina, ST_Slope, HeartDisease
+      * Variables (quantitative): Age, RestingBP, Cholesterol, MaxHR, Oldpeak
+     - Age: Age of the patient
+     - Sex: patient's sex [M: Male, F: Female]
+     - ChestPainType: type of chest pain [TA: Typical angina, ATA: Atypical angina, NAP: No angina, ASY: No symptomatic]
+     - RestingBP: resting blood pressure - resting blood pressure [mmHg]
+     - Cholesterol: amount of cholesterol [mm/dl]
+     - FastingBS: fasting blood sugar [1: ifFastingBS > 120 mg/dL, 0: if FastingBS <= 120 mg/dL]
+     - RestingECG: ECG results at rest [Normal: Normal,ST: ST-T wave abnormalities (T wave inversion and/or ST elevation)or decrease > 0.05 mV), LVH: indicates possible left ventricular hypertrophy or determined according to Estes' criteria]
+     - MaxHR: maximum heart rate achieved [Number value from 60 to 202]
+     - ExerciseAngina: exercise-induced angina [Y: Yes, N: No]
+     - Oldpeak: oldpeak = ST [Number value measured in depression]
+     - ST_Slope: slope of the peak exercise ST segment [Up: uphill, Flat: flat, Down: sloping down]
+     - HeartDisease: Heart disease [1: Yes, 0: No]
+
+**2.How data is collected:** By installing the necessary libraries. we need to use read.csv() function and set correct path to .csv file and get result like below
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(stringr)
+library(dplyr)
+library(caret)
+library(corrplot)
+library('randomForest')
+library(mice)
+library("ggthemes")
+```
+
+```{r, echo=FALSE}
+data <- read.csv("data/heart.csv")
+head(data)
+```
+
+**\*\* Check if the data is empty or not?**
+
+```{r}
+na<-function(x){
+  result<- which(x=='na'| x=='NA'|x=='Na')
+  length(result)
+}
+apply(data,2,na)
+```
+
+**Comment:** output shows no empty data
+
+\*\* Check for duplicate data.
+
+```{r}
+duplicate<- duplicated(data)
+sum(duplicate)
+```
+
+**Comment:**output shows no duplicate data
+
+\*\* Display by data summary variable:
+
+```{r}
+data %>% summary()
+```
+
+## **III. Data analysis**
+
+**Questions chosen by the group**
+
+-   Question 1: How does high cholesterol affect the risk of heart disease?
+
+-   Question 2: Do men have a higher risk of heart disease than women?
+
+-   Question 3: Of the factors in the data, which are the main factors that lead to a higher risk of heart failure?
+
+-   Question 4: Use Logistic Regression model to predict whether a person is likely to have heart disease or not?
+
+## **Solve the question 1: How does high cholesterol affect the risk of heart disease?**
+
+```{r}
+cut_cholesterol <- split(data, cut(data$Cholesterol, c(130, 260, 390, 520, 650), include.lowest=TRUE))
+Chol130_260 <- sum(cut_cholesterol[[1]]$HeartDisease==1)/nrow(cut_cholesterol[[1]]) #130-260
+Chol261_390 <- sum(cut_cholesterol[[2]]$HeartDisease==1)/nrow(cut_cholesterol[[2]]) #261-390
+Chol391_520 <- sum(cut_cholesterol[[3]]$HeartDisease==1)/nrow(cut_cholesterol[[3]]) #390-520
+Chol521_650 <- sum(cut_cholesterol[[4]]$HeartDisease==1)/nrow(cut_cholesterol[[4]]) #520-650
+
+dfc <- data
+dfc$CholGroup[dfc$Cholesterol > 130 & dfc$Cholesterol <= 260] <- '130 - 260'
+dfc$CholGroup[dfc$Cholesterol > 260 & dfc$Cholesterol <= 390] <- '261 - 390'
+dfc$CholGroup[dfc$Cholesterol > 390 & dfc$Cholesterol <= 520] <- '391 - 520'
+dfc$CholGroup[dfc$Cholesterol > 520 & dfc$Cholesterol <= 650] <- '521 - 650'
+
+ggplot(dfc, aes(x = CholGroup, fill = factor(HeartDisease))) +
+  geom_bar() +
+  labs(title = "Cholesterol and Heart Disease",
+       x = "Cholesterol",
+       y = "Frequency") 
+
+cat("People with cholesterol from 130 - 260 have ", round(Chol130_260*100, 2), "% possibility of heart disease\n", sep = "")
+cat("People with cholesterol from 261 - 390 have ", round(Chol261_390*100, 2), "% possibility of heart disease\n", sep = "")
+cat("People with cholesterol from 391 - 520 have ", round(Chol391_520*100, 2), "% possibility of heart disease\n", sep = "")
+cat("People with cholesterol from 521 - 650 have ", round(Chol521_650*100, 2), "% possibility of heart disease\n", sep = "")
+```
+
+-   Through the ratio above, we can see that the higher the cholesterol, the higher the risk of heart disease. From there we have measures to balance the amount of cholesterol that we absorb. And can prevent heart failure.
+
+## **Solve the question 2: Do men have a higher risk of heart disease than women?**
+
+```{r}
+ggplot(data, aes(x = factor(HeartDisease), fill = Sex)) +
+  geom_bar(stat = "count", position="dodge") +
+  theme_bw() +
+  labs(title = "Histogram of Heart Disease across Gender",
+       x="Heart Disease", y="Count") +
+  scale_fill_manual(values = c("pink", "lightblue")) +
+  theme(legend.position = "bottom")
+
+MaleHD <- subset(data, data$Sex=="M")
+MaleHeart <- sum(MaleHD$HeartDisease==1) / nrow(MaleHD)
+
+FemaleHD<-subset(data, data$Sex=="F")
+FemaleHeart <- sum(FemaleHD$HeartDisease==1) / nrow(FemaleHD)
+```
+
+-   The number of men with heart disease is higher than that of men without heart disease, the number of women with heart disease is lower than the number of women without heart disease.
+
+    ## Using the test of statistical significance:
+
+-   H0: Gender does not affect the likelihood of heart disease
+
+-   H1: Men are more likely to have heart disease than women
+
+```{r}
+t.test(MaleHD$HeartDisease,FemaleHD$HeartDisease,alternative = "two.sided", conf.level = 0.99)
+```
+
+-   **Comment:**
+
+    -   Since the p value \< 0.05 is statistically significant, we reject H0 and accept H1.
+
+    -   Men have a 28%-47% higher risk of heart disease than women.
+
+    -   The percentage of men with heart disease in the dataset accounted for 63.17% and women with heart disease accounted for 25.9%
+
+## **Solve the question 3: Of the factors in the data, which are the main factors that lead to a higher risk of heart failure?**
+
+```{r}
+data1 <- model.matrix( ~ . , data = data) %>% 
+  as_tibble() %>% 
+  dplyr::select(-"(Intercept)")
+corrplot(cor(data1), title = "Correlation Plot", mar=c(0,0,1,0))
+```
+
+    - Comment:
+
+     - The correlation chart shows the correlation between variables visually, the darker the color, the stronger the correlation.
+
+     - Looking at the graph we can see that the variables Age, SexM, ChestPainTypeATA, ChestPainTypeNAP, Cholesterol, FastingBS, MaxHR, ExerciseAnginaY, Oldpeak, ST_SlopeFlat and ST_SlopeUp are highly correlated with the outcome variable.
+
+     - The ST_Slope variable has the strongest correlation with the outcome variable.
+
+```{r warning=FALSE, , message=FALSE, include=FALSE, paged.print=FALSE}
+set.seed(123)
+mice_mod <- mice(data, m = 5, rfPackage = "randomForest" )
+mice_output <- complete(mice_mod, 3)
+rf_model <- randomForest(factor(HeartDisease) ~ FastingBS+RestingBP+MaxHR+ ExerciseAngina+Cholesterol+Sex + ChestPainType+RestingECG+ST_Slope+Age+Oldpeak,
+                             data = mice_output, ntree=1000)
+importance <- importance(rf_model)
+varImportance <- data.frame(Variables = row.names(importance),
+                            Importance = round(importance[ ,'MeanDecreaseGini'],2))
+    # Create a rank variable based on importance
+
+rankImportance <- varImportance %>%
+  mutate(Rank = paste0('#',dense_rank(desc(Importance))))
+```
+
+```{r}
+rankImportance
+ggplot(rankImportance, aes(x = reorder(Variables, Importance), 
+                           y = Importance, fill = Importance)) +
+  geom_bar(stat='identity') + 
+  geom_text(aes(x = Variables, y = 0.5, label = Rank),
+            hjust=0, vjust=0.55, size = 4, colour = 'red') +
+  labs(x = 'Variables') +
+  coord_flip() + 
+  theme_few()
+```
+
+-   From this model, we can also see that the variable ST_Slope is the variable that has the most influence on heart disease.
+
+## **Solve the question 4: Use Logistic Regression model to predict whether a person is likely to have heart disease or not**
+
+```{r pressure, echo=FALSE}
+
+index = createDataPartition(data$HeartDisease, times = 1, p = 0.8, list = FALSE)
+train <- data[index,]
+test <- data[-index,]
+
+model <- glm(HeartDisease ~ ., data = train, family = binomial)
+summary(model)
+
+residual_deviance <- model$deviance
+null_deviance <- model$null.deviance
+R_square <- 1 - residual_deviance / null_deviance
+cat("R_square =",R_square)
+```
+
+```{r}
+PredictionTrain <- predict(model, newdata = train, type = "response")
+PredictionTrain <- ifelse(PredictionTrain > 0.5, 1, 0)
+
+PredictionTest <- predict(model, newdata = test, type = "response")
+PredictionTest <- ifelse(PredictionTest > 0.5, 1, 0)
+
+table(train$HeartDisease, PredictionTrain)
+PropabilityTrain <- sum(train$HeartDisease == PredictionTrain) / nrow(train)
+cat('\n')
+
+table(test$HeartDisease, PredictionTest)
+PropabilityTest <- sum(test$HeartDisease == PredictionTest) / nrow(test)
+cat('\n')
+# 0 0 actually doesn't have heart disease and guesses it doesn't
+# 0 1 actually not and predicted to be
+#1 0 actually has heart disease and guesses it doesn't
+#1 1 actual and predicted to be
+
+cat("The ratio of the model correctly predicting on the dataset Train is: ", PropabilityTrain * 100, "%", sep="", '\n')
+
+cat("the ratio of the model correctly predicting on the dataset Test is ", PropabilityTest * 100, "%", sep="", '\n')
+
+RMSEofTrain <- sqrt(mean((PredictionTrain - train$HeartDisease)^2))
+cat("RMSE of train:", RMSEofTrain, '\n')
+
+RMSEofTest <- sqrt(mean((PredictionTest - test$HeartDisease)^2))
+cat("RMSE of test:", RMSEofTest, '\n')
+```
+
+## **Conclusion**
+
+-   From the graphs and statistical tests above, our team has some evidence to show that people with higher cholesterol levels are more likely to have heart disease. More specifically, we would normally expect heart disease to be unrelated to gender. But through the analysis, it is clear that men have a much higher risk of heart disease than women.
+
+-   In addition, through the models, we can see that the exercise heart rate of people with heart disease is very different from that of people without. Indicators such as depression, exercise-induced chest pain, types of chest pain, and fasting blood sugar also affect the likelihood of heart disease.
+
+-   The model to predict heart failure using Logistic Regression gives results with quite high accuracy, sometimes up to more than 90% and almost 80%.
+
+-   Because our study is only an observational study, we can only conclude the difference but cannot make an exact conclusion, because it depends a lot on other hidden variables.
+
+-   Limited knowledge and time, so the report still contains many errors. If my group has more time, my team will learn more predictive models to evaluate the predictive ability of each model, change the sampling method to get more objective results and find out more. hidden variables affect heart disease so the final results can be more accurate.
+
+## **Thank for watching**
+Link đến video của nhóm: https://youtu.be/7K8sAmN-nPc

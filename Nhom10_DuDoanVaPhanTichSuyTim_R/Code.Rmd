@@ -1,0 +1,271 @@
+---
+title: "Code"
+author: "Nhóm 10"
+date: "2022-12-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
+```
+
+# Thành viên:
+
+-   20133033 - Bùi Tấn Đạt
+
+-   20133075 - Võ Hoàng Nguyên
+
+-   20133108 - Trần Tuyên Trường
+
+-   20133008 - Hoàng Uyên
+
+# Thư viện
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(caret)
+library(corrplot)
+library('randomForest')
+library(mice)
+library("ggthemes")
+```
+
+# Phần 1: Giới thiệu dữ liệu
+
+-   Bệnh tim mạch (CVD) là nguyên nhân gây tử vong số 1 trên toàn cầu, cướp đi sinh mạng của khoảng 17,9 triệu người mỗi năm, chiếm 31% tổng số ca tử vong trên toàn thế giới. Bốn trong số 5CVD tử vong là do đau tim và đột quỵ, và một phần ba số ca tử vong này xảy ra sớm ở những người dưới 70 tuổi. Suy tim là một sự kiện phổ biến do CVD gây ra và bộ dữ liệu này có thể được sử dụng để dự đoán bệnh tim có thể xảy ra.
+
+-   Những người mắc bệnh tim mạch hoặc những người có nguy cơ tim mạch cao (do sự hiện diện của một hoặc nhiều yếu tố nguy cơ như tăng huyết áp, tiểu đường, tăng lipid máu hoặc bệnh đã được thiết lập) cần được phát hiện và quản lý sớm, trong đó mô hình học máy có thể giúp ích rất nhiều.
+
+## **Câu hỏi nghiên cứu:**
+
+1.  Lượng Cholestorol cao hay thấp ảnh hưởng như thế nào đến khả năng mắc bệnh suy tim?
+
+2.  Giới tính có ảnh hưởng đến khả năng mắc bệnh suy tim cao hay thấp không?
+
+3.  Liệu rằng người lớn tuổi có khả năng mắc bệnh suy tim cao hơn người trẻ hay không?
+
+4.  Trong các yếu tố ở dữ liệu, đâu là những yếu tố chính dẫn đến nguy cơ mắc bệnh tim suy tim cao hơn?
+
+## Dữ liệu
+
+-   **Đọc dữ liệu theo dòng**: xuất theo kiểu string \<str\> để đọc được số dòng là 918 theo 12 biến.
+
+    ```{r}
+    data <- read.csv("data/heart.csv")
+    str(data)
+    ```
+
+    **Nhận xét:** dataframe hiển thị đầy đủ các biến theo kiểu dữ liệu tương ứng.
+
+-   **Đọc dữ tập dữ liệu:** hiển thị ra 15 giá trị đầu của tập dữ liệu:
+
+    ```{r}
+    data %>% head(15)
+    ```
+
+    **Nhận xét:** dataframe hiển thị đầy đủ các biến theo kiểu dữ liệu tương ứng dễ nhìn hơn sơ với xuất theo kiểu string \<str\>.
+
+-   **Kiểm tra dữ liệu có bị rỗng hay không?**
+
+    ```{r}
+    na<-function(x){
+      result<- which(x=='na'| x=='NA'|x=='Na')
+      length(result)
+    }
+    apply(data, 2, na)
+    ```
+
+    **Nhận xét:** output hiển thị không có dữ liệu bị rỗng
+
+-   **Kiểm tra dữ liệu trùng nhau**
+
+    ```{r}
+    duplicate<- duplicated(data)
+    sum(duplicate)
+    ```
+
+    **Nhận xét:** output hiển thị không có dữ liệu bị trùng nhau.
+
+-    **Biểu đồ hiển thị tóm tắt dữ liệu theo biến:**
+
+    ```{r}
+    data %>% summary()
+    ```
+
+# Phần 2: Phân tích dữ liệu
+
+## Câu 1: Lượng Cholesterol cao ảnh hưởng như thế nào đến nguy cơ mắc bệnh tim?
+
+```{r}
+
+cut_cholesterol <- split(data, cut(data$Cholesterol, c(130, 260, 390, 520, 650), include.lowest=TRUE))
+Chol130_260 <- sum(cut_cholesterol[[1]]$HeartDisease==1)/nrow(cut_cholesterol[[1]]) #130-260
+Chol261_390 <- sum(cut_cholesterol[[2]]$HeartDisease==1)/nrow(cut_cholesterol[[2]]) #261-390
+Chol391_520 <- sum(cut_cholesterol[[3]]$HeartDisease==1)/nrow(cut_cholesterol[[3]]) #390-520
+Chol521_650 <- sum(cut_cholesterol[[4]]$HeartDisease==1)/nrow(cut_cholesterol[[4]]) #520-650
+
+dfc <- data
+dfc$CholGroup[dfc$Cholesterol > 130 & dfc$Cholesterol <= 260] <- '130 - 260'
+dfc$CholGroup[dfc$Cholesterol > 260 & dfc$Cholesterol <= 390] <- '261 - 390'
+dfc$CholGroup[dfc$Cholesterol > 390 & dfc$Cholesterol <= 520] <- '391 - 520'
+dfc$CholGroup[dfc$Cholesterol > 520 & dfc$Cholesterol <= 650] <- '521 - 650'
+
+ggplot(dfc, aes(x = CholGroup, fill = factor(HeartDisease))) +
+  geom_bar() +
+  labs(title = "Cholesterol and Heart Disease",
+       x = "Cholesterol",
+       y = "Frequency") 
+
+cat("Nguoi co luong Cholesterol tu 130 - 260 co ", round(Chol130_260*100, 2), "% kha nang mac benh tim\n", sep = "")
+cat("Nguoi co luong Cholesterol tu 261 - 390 co ", round(Chol261_390*100, 2), "% kha nang mac benh tim\n", sep = "")
+cat("Nguoi co luong Cholesterol tu 391 - 520 co ", round(Chol391_520*100, 2), "% kha nang mac benh tim\n", sep = "")
+cat("Nguoi co luong Cholesterol tu 521 - 650 co ", round(Chol521_650*100, 2), "% kha nang mac benh tim\n", sep = "")
+```
+
+Qua tỷ lệ ở trên ta có thể thấy được rằng người có lượng Cholesteol càng lớn thì khả năng mắc bệnh tim càng cao.
+
+## Câu 2: Nam giới có nguy cơ mắc bệnh tim cao hơn nữ giới hay không?
+
+```{r}
+ggplot(data, aes(x = factor(HeartDisease), fill = Sex)) +
+  geom_bar(stat = "count", position="dodge") +
+  theme_bw() +
+  labs(title = "Histogram of Heart Disease across Gender",
+       x="Heart Disease", y="Count") +
+  scale_fill_manual(values = c("pink", "lightblue")) +
+  theme(legend.position = "bottom")
+
+MaleHD <- subset(data, data$Sex=="M")
+MaleHeart <- sum(MaleHD$HeartDisease==1) / nrow(MaleHD)
+
+FemaleHD<-subset(data, data$Sex=="F")
+FemaleHeart <- sum(FemaleHD$HeartDisease==1) / nrow(FemaleHD)
+
+```
+
+-   Số lượng nam giới bị bệnh tim cao hơn nam không bị bệnh tim, số lượng nữ giới bị bệnh tim thấp hơn số lượng nữ không bị bệnh tim.
+
+### Sử dụng kiểm định ý nghĩa thống kê:
+
+-   H0: Giới tính không ảnh hưởng đến khá năng mắc bệnh tim
+
+-   H1: Giới tính nam có khả năng mắc bệnh tim cao hơn nữ
+
+```{r}
+t.test(MaleHD$HeartDisease,FemaleHD$HeartDisease,alternative = "two.sided", conf.level = 0.99)
+```
+
+-   **Nhận xét:**
+
+    -   Vì giá trị p \< 0.05 nên có ý nghĩa thống kê, ta bác bỏ H0 và chấp nhận H1.
+
+    -   Nam giới có nguy cơ mắc bệnh tim cao hơn từ 28% - 47% so với nữ.
+
+    -   Tỷ lệ nam giới bị bệnh tim trong tập dữ liệu chiếm 63.17% và nữ giới bị bệnh tim chiếm 25.9%
+
+## Câu 3: Trong các yếu tố ở dữ liệu, đâu là những yếu tố chính dẫn đến nguy cơ mắc bệnh tim suy tim cao hơn?
+
+```{r}
+data1 <- model.matrix( ~ . , data = data) %>% 
+  as_tibble() %>%
+  dplyr::select(-"(Intercept)")
+corrplot(cor(data1), title = "Correlation Plot", mar=c(0,0,1,0))
+```
+
+-   Nhận xét:
+
+    -   Biểu đồ tương quan thể hiện tương quan giữa các biến một cách trực quan, màu càng đậm thì tương quan càng mạnh.
+
+    -   Nhìn vào biểu đồ ta có thể thấy các biến Age, SexM, ChestPainTypeATA, ChestPainTypeNAP, Cholesterol, FastingBS, MaxHR, ExerciseAnginaY, Oldpeak, ST_SlopeFlat và ST_SlopeUp tương quan nhiều với biến kết quả.
+
+    -   Biến ST_Slope có tương quan mạnh nhất với biến kết quả.
+
+    ```{r}
+    set.seed(123)
+
+    mice_mod <- mice(data, m = 5, rfPackage = "randomForest" )
+    mice_output <- complete(mice_mod, 3)
+    rf_model <- randomForest(factor(HeartDisease) ~ FastingBS+RestingBP+MaxHR+ExerciseAngina+Cholesterol+Sex+
+                               ChestPainType+RestingECG+ST_Slope+Age+Oldpeak,
+                             data = mice_output,ntree=1000)
+    importance    <- importance(rf_model)
+    varImportance <- data.frame(Variables = row.names(importance), 
+                                Importance = round(importance[ ,'MeanDecreaseGini'],2))
+    # Create a rank variable based on importance
+    rankImportance <- varImportance %>%
+      mutate(Rank = paste0('#',dense_rank(desc(Importance))))
+    rankImportance
+    ```
+
+```{r}
+ggplot(rankImportance, aes(x = reorder(Variables, Importance), 
+                           y = Importance, fill = Importance)) +
+  geom_bar(stat='identity') + 
+  geom_text(aes(x = Variables, y = 0.5, label = Rank),
+            hjust=0, vjust=0.55, size = 4, colour = 'red') +
+  labs(x = 'Variables') +
+  coord_flip() + 
+  theme_few()
+```
+
+-   Từ mô hình này ta cũng có thể thấy biến ST_Slope là biến ảnh hưởng nhiều nhất tới bệnh tim.
+
+## Câu 4: Sử dụng mô hình Logistic Regression để dự đoán một người có khả năng bị bệnh tim hay không
+
+```{r pressure, echo=FALSE}
+
+index = createDataPartition(data$HeartDisease, times = 1, p = 0.8, list = FALSE)
+train <- data[index,]
+test <- data[-index,]
+
+model <- glm(HeartDisease ~ ., data = train, family = binomial)
+summary(model)
+
+residual_deviance <- model$deviance
+null_deviance <- model$null.deviance
+R_square <- 1 - residual_deviance / null_deviance
+cat("R_square =",R_square)
+```
+
+```{r}
+PredictionTrain <- predict(model, newdata = train, type = "response")
+PredictionTrain <- ifelse(PredictionTrain > 0.5, 1, 0)
+
+PredictionTest <- predict(model, newdata = test, type = "response")
+PredictionTest <- ifelse(PredictionTest > 0.5, 1, 0)
+
+table(train$HeartDisease, PredictionTrain)
+PropabilityTrain <- sum(train$HeartDisease == PredictionTrain) / nrow(train)
+cat('\n')
+
+table(test$HeartDisease, PredictionTest)
+PropabilityTest <- sum(test$HeartDisease == PredictionTest) / nrow(test)
+cat('\n')
+# 0 0 thực tế ko bị bệnh tim và đoán ra ko bệnh tim
+# 0 1 thực tế không bị và dự đoán là bị
+# 1 0 thực tế bị bệnh tim và đoán là ko bị
+# 1 1 thực tế bị và dự đoán là bị
+
+cat("Ty le mo hinh du doan dung tren tap train la: ", PropabilityTrain * 100, "%", sep="", '\n')
+
+cat("Ty le mo hinh du doan dung tren tap test la: ", PropabilityTest * 100, "%", sep="", '\n')
+
+RMSEofTrain <- sqrt(mean((PredictionTrain - train$HeartDisease)^2))
+cat("RMSE of train:", RMSEofTrain, '\n')
+
+RMSEofTest <- sqrt(mean((PredictionTest - test$HeartDisease)^2))
+cat("RMSE of test:", RMSEofTest, '\n')
+```
+
+# Phần 3: Kết Luận
+
+-   Từ các biểu đồ và kiểm định thống kê ở trên, nhóm chúng em đã có một số bằng chứng để chỉ ra rằng những người có lượng Cholesterol càng cao thì khả năng mắc bệnh tim càng cao. Đặc biệt hơn, bình thường ta sẽ nghỉ khả năng mắc bệnh tim không liên quan tới giới tính. Nhưng qua quá trình phân tích ta có thể thấy rõ ràng rằng nam giới có nguy cơ mắc bệnh tim cao hơn rất nhiều so với nữ giới.
+
+-   Ngoài ra, thông qua các mô hình ta có thể thấy được nhịp tim lúc tập thể dục của người bị bệnh tim rất khác so với người không bị. Các chỉ số như độ trầm cảm, đau ngực do tập thể dục, các loại đau ngực, đường huyết lúc đói cũng ảnh hưởng tới khả năng bị bệnh tim.
+
+-   Mô hình dự đoán suy tim sử dụng Logistic Regression cho ra kết quả với độ chính xác khá cao, có khi lên tới hơn 90% và hâu như là hơn 80%.
+
+-   Do nghiên cứu chúng em thực hiện chỉ là nghiên cứu quan sát nên chỉ có thể kết luận sự khác biệt chứ không thể đưa ra kết luận chính xác, vì còn phụ thuộc nhiều vào các biến ẩn khác
+
+-   Sự hiểu biết và thời gian có hạn nên bài báo cáo vẫn còn nhiều lỗi. Nếu nhóm em có nhiều thời gian hơn thì nhóm em sẽ tìm hiểu thêm nhiều mô hình dự đoán để đánh giá khả năng dự đoán của từng mô hình, thay đổi phương pháp chọn mẫu để có kết quả khách quan hơn và tìm ra thêm nhiều biến ẩn ảnh hưởng đến bệnh tim để kết quả cuối cùng có thể chính xác hơn.\

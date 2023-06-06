@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33423.256
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "FinalProject_DATAMINING", "FinalProject_DATAMINING\FinalProject_DATAMINING.dwproj", "{77CB9495-7961-4A6D-81B8-CF2B6D489201}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77CB9495-7961-4A6D-81B8-CF2B6D489201}.Development|Default.ActiveCfg = Development
+		{77CB9495-7961-4A6D-81B8-CF2B6D489201}.Development|Default.Build.0 = Development
+		{77CB9495-7961-4A6D-81B8-CF2B6D489201}.Development|Default.Deploy.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E0DA9AF-25AE-4074-B638-CA2AF0F02A08}
+	EndGlobalSection
+EndGlobal
